@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Website</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url("{{ url_for('static', filename='home/index_baground.png') }}");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    
+    .menu {
+      position: absolute;
+      top: 440px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-gap: 10px;
+      justify-items: center;
+      align-items: center;
+    }
+    
+    .menu-button {
+      width: 150px;
+      height: 150px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .menu-button:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .menu-button:active {
+      background-color: rgba(2, 255, 2, 1);
+    }
+    
+    .menu-button img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    
+    .menu-button span {
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+    }
+    .links a {
+    text-decoration: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  </style>
+</head>
+<body>
+  <br><br>
+  <div class="menu">
+
+    <a href="/chatpublic">
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon1.png') }}" alt="Public Chatbot">
+      <span>Public Chatbot</span>
+    </div>
+  </a>
+
+  <a href="/chatclient">
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon2.png') }}" alt="Client Chatbot">
+      <span>Client Chatbot</span>
+    </div>
+  </a>
+
+  <a href="/chatteam">
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon3.png') }}" alt="Team Chatbot">
+      <span>Team Chatbot</span>
+    </div>
+  </a>
+
+  <a href="/ticketreply">
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon4.png') }}" alt="Reply">
+      <span>Ticket </span>
+    </div>
+  </a>
+
+  <a href="/importdata">
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon5.png') }}" alt="Import Data">
+      <span>Import Data</span>
+    </div>
+  </a>
+
+  <a href="/setting">  
+    <div class="menu-button">
+      <img src="{{ url_for('static', filename='home/icon6.png') }}" alt="Setting">
+      <span>Setting</span>
+    </div>
+  </a>
+    <!-- Add more menu buttons as needed -->
+  </div>
+</body>
+</html>

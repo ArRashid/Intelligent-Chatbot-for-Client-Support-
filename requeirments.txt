@@ -1,0 +1,15 @@
+flask
+pinecone-client
+openai
+langchain
+tiktoken
+HuggingFace
+pypdf
+atlassian-python-api
+bs4
+beautifulsoup4
+lxml
+pymupdf
+wikipedia
+google-api-python-client
+openai==0.28

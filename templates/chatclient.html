@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+
+
+
+
+
+<style>
+   body {
+      margin: 0;
+      padding: 0;
+      background-image: url("{{ url_for('static', filename='chatclient.gif') }}");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+.chat-log {
+  position: absolute;
+  top: 130px;
+  left: 5%;
+  right: 5%;
+  border-radius: 20px;
+  height: 60%;
+  width: 90%;
+  overflow-y: scroll;
+  border: 2px solid #ccc;
+  padding: 10px;
+}
+
+
+.chat-message {
+  margin-bottom: 10px;
+}
+
+.user-message {
+  float: right;
+  background-color:#a9dbd5 ;
+  color: #fff;
+  padding: 5px;
+  border-radius: 10px;
+  max-width: 95%;
+  min-width: 70%;
+  align-self: flex-end;
+}
+
+.bot-message {
+   float: left;
+  background-color:#a9dbac ;
+  color: #333;
+  padding: 10px;
+  border-radius: 10px;
+   max-width: 95%;
+  min-width: 70%;
+  align-self: flex-start;
+}
+
+.send-button {
+  margin-top: 10px;
+  background-color: #0084ff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.send-button:disabled {
+  background-color: black;
+  color: yellow;
+  cursor: not-allowed;
+}
+
+
+.chat-textarea {
+  position: absolute;
+  top: 85%;
+  left: 15%;
+  display: flex;
+  align-items: center;
+  max-width: 1300px;
+  min-width: 1000px;
+  margin: 0 auto;
+}
+
+.chat-textarea textarea {
+  background-color: #abd4d9;
+  flex-grow: 1;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-textarea button {
+  margin-left: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #0084ff;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+}
+
+
+
+
+
+
+
+.text-container {
+  text-align: center;
+}
+
+.animated-text {
+  background-color: #ffff22 ;
+  animation-name: fade-in-out;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/*This is for home button*/
+.home-button {
+  display: inline-block;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+.home-button img {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+.home-button:hover img {
+  transform: scale(1.2);
+  background-color: rgba(2, 255, 2, 1);
+}
+
+.home-button:active img {
+  transform: scale(0.8);
+}
+
+</style>
+
+
+
+<a href="/" class="home-button">
+  <img src="{{ url_for('static', filename='homeicon.png') }}" alt="Home">
+</a>
+
+
+
+
+<div class="chat-log" id="chat-log">
+  <div class="chat-message bot-message">
+    Hi there! How can I assist you today?
+  </div>
+</div>
+
+<!-- <form>
+<div class="chat-input">
+  <input type="text" id="user-message" placeholder="What would you like to know about Ginesys ?..."> 
+
+  <button type="submit" class="send-button" id="send-button">Send</button>
+   <button type="submit" class="send-button" id="send-button">Voice</button> -->
+
+ -->
+
+ <form>
+<div class="chat-textarea">
+ <!-- <textarea type="text" id="user-message" placeholder="What would you like to know about Ginesys ?..."> -->
+  <textarea id="user-message"  type="text" ></textarea>
+
+  <button type="submit" class="send-button" id="send-button">Send</button>
+
+</form>
+
+
+
+
+  
+      <script>
+
+
+const chatLog = document.getElementById('chat-log');
+const userMessagetextarea = document.getElementById('user-message');
+const sendButton = document.getElementById('send-button');
+
+function appendMessageToChatLog(message, isBot,iswait) {
+  const messageElement = document.createElement('div');
+  messageElement.innerText = message;
+  if (isBot) {
+    messageElement.classList.add('bot-message');
+    
+
+    if (iswait) {
+      messageElement.classList.add('animated-text');
+    }
+  } else {
+    messageElement.classList.add('user-message');
+  }
+  chatLog.appendChild(messageElement);
+}
+
+
+function sendUserMessageToApi() {
+  const userMessage = userMessagetextarea.value;
+  appendMessageToChatLog(userMessage, false);
+
+  // Add waiting message to chat log
+  const waitingMessage = 'Waiting for response...';
+  appendMessageToChatLog(waitingMessage, true,true);
+  var chatWindow = document.getElementById("chat-log");
+    chatWindow.scrollTop = chatWindow.scrollHeight  ;
+  // Disable textarea field and send button
+  userMessagetextarea.disabled = true;
+userMessagetextarea.value = ''
+userMessagetextarea.placeholder = ''
+  sendButton.disabled = true;
+  sendButton.classList.add('animated-text')
+  sendButton.innerText = 'Waiting..';
+
+  const requestBody = {
+    message: userMessage
+  };
+
+  fetch('http://127.0.0.1/chatclient', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => response.json())
+  .then(responseBody => {
+    const botMessage = responseBody.message;
+    // Remove waiting message from chat log
+    chatLog.removeChild(chatLog.lastChild);
+    appendMessageToChatLog(botMessage, true);
+    // Enable textarea field and send button
+    userMessagetextarea.disabled = false;
+    sendButton.disabled = false;
+    sendButton.classList.remove('animated-text')
+    sendButton.innerText = 'Send';
+    // Clear textarea field
+    userMessagetextarea.value = '';
+    var chatWindow = document.getElementById("chat-log");
+    chatWindow.scrollTop = chatWindow.scrollHeight  ;
+  });
+}
+
+document.querySelector('form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  sendUserMessageToApi();
+});
+
+
+
+
+
+
+const textarea = document.getElementById("user-message");
+
+textarea.addEventListener("keydown", function(event) {
+  if (event.ctrlKey && event.keyCode === 13) {
+    event.preventDefault();
+    submitForm();
+  }
+});
+
+function submitForm() {
+  // Do whatever you need to do to submit the form
+  console.log(textarea.value);
+  const submitbtn = document.getElementById("send-button");
+  submitbtn.click()
+}
+
+
+</script>
+  </body>
+</html>

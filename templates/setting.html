@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Editor</title>
+  <style>
+    .section {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .subsection {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON Editor</h1>
+  <form action="/update_json" method="post">
+    <div class="section">
+      <h2>GLOBAL</h2>
+      <div class="subsection">
+        <h3>APPLICATION</h3>
+        <label>PORT:</label>
+        <input type="text" name="global.application.port" value="{{ settings.GLOBAL.APPLICATION.PORT }}"><br>
+        <label>CURRENT_LLM:</label>
+        <input type="text" name="global.application.current_llm" value="{{ settings.GLOBAL.APPLICATION.CURRENT_LLM }}"><br>
+        <label>CURRENT_EMBEDDING:</label>
+        <input type="text" name="global.application.current_embedding" value="{{ settings.GLOBAL.APPLICATION.CURRENT_EMBEDDING }}"><br>
+        <label>CHUNK_SIZE:</label>
+        <input type="text" name="global.application.chunk_size" value="{{ settings.GLOBAL.APPLICATION.CHUNK_SIZE }}"><br>
+        <label>CHUNK_OVERLAP:</label>
+        <input type="text" name="global.application.chunk_overlap" value="{{ settings.GLOBAL.APPLICATION.CHUNK_OVERLAP }}"><br>
+      </div>
+    </div>
+    <div class="section">
+      <h2>DATABASE</h2>
+      <div class="subsection">
+        <h3>PINECONE</h3>
+        <div class="subsection">
+          <h4>CLIENT</h4>
+          <label>PINECONE_ENV:</label>
+          <input type="text" name="database.pinecone.client.pinecone_env" value="{{ settings.DATABASE.PINECONE.CLIENT.PINECONE_ENV }}"><br>
+          <label>PINECONE_INDEX:</label>
+          <input type="text" name="database.pinecone.client.pinecone_index" value="{{ settings.DATABASE.PINECONE.CLIENT.PINECONE_INDEX }}"><br>
+          <label>PINECONE_API_KEY:</label>
+          <input type="text" name="database.pinecone.client.pinecone_api_key" value="{{ settings.DATABASE.PINECONE.CLIENT.PINECONE_API_KEY }}"><br>
+        </div>
+        <div class="subsection">
+          <h4>TEAM</h4>
+          <label>PINECONE_ENV:</label>
+          <input type="text" name="database.pinecone.team.pinecone_env" value="{{ settings.DATABASE.PINECONE.TEAM.PINECONE_ENV }}"><br>
+          <label>PINECONE_INDEX:</label>
+          <input type="text" name="database.pinecone.team.pinecone_index" value="{{ settings.DATABASE.PINECONE.TEAM.PINECONE_INDEX }}"><br>
+          <label>PINECONE_API_KEY:</label>
+          <input type="text" name="database.pinecone.team.pinecone_api_key" value="{{ settings.DATABASE.PINECONE.TEAM.PINECONE_API_KEY }}"><br>
+        </div>
+        <div class="subsection">
+          <h4>PUBLIC</h4>
+          <label>PINECONE_ENV:</label>
+          <input type="text" name="database.pinecone.public.pinecone_env" value="{{ settings.DATABASE.PINECONE.PUBLIC.PINECONE_ENV }}"><br>
+          <label>PINECONE_INDEX:</label>
+          <input type="text" name="database.pinecone.public.pinecone_index" value="{{ settings.DATABASE.PINECONE.PUBLIC.PINECONE_INDEX }}"><br>
+          <label>PINECONE_API_KEY:</label>
+          <input type="text" name="database.pinecone.public.pinecone_api_key" value="{{ settings.DATABASE.PINECONE.PUBLIC.PINECONE_API_KEY }}"><br>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h2>LLM</h2>
+      <div class="subsection">
+        <h3>HUGGIFACE</h3>
+      </div>
+      <div class="subsection">
+        <h3>OPENAI</h3>
+        <label>API_KEY:</label>
+        <input type="text" name="llm.openai.api_key" value="{{ settings.LLM.OPENAI.API_KEY }}"><br>
+      </div>
+    </div>
+    <br>
+    <input type="submit" value="Update JSON">
+  </form>
+</body>
+</html>

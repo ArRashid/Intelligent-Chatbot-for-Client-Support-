@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Import Page</title>
+    <style>
+        body {
+      margin: 0;
+      background-image: url("{{ url_for('static', filename='home/index_baground.png') }}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+        padding: 2px;
+    }
+       
+
+        h1 {
+            color: #FFFFFF; /* White text color */
+        }
+
+        form {
+            
+            padding: 20px;
+            backdrop-filter: blur(10px);
+      background-color: rgba(139, 133, 133, 0.5);
+      border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50; /* Green button background color */
+            border: none;
+            color: #FFFFFF; /* White text color */
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    .table-container {
+        width: 100%;
+        min-height: 150px;
+        max-height: 200px;
+        overflow-y: scroll;
+        overflow-x: auto;
+    }
+
+  table {
+    
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+
+
+  /*      table {
+            margin-top: 20px;
+            border: 5px solid #ccc;
+/*            border-collapse: collapse;*/
+           /* width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+           */ /*border-bottom: 1px solid #ddd;
+        }*/
+
+
+
+
+        .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 75vh;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+
+    .hidden-box {
+  display: none; /* Initially hide the box */
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form-row {
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  display: inline-block;
+  width: 100px; /* Adjust the width as needed */
+}
+
+.form-row input {
+  display: inline-block;
+  width: 200px; /* Adjust the width as needed */
+}
+
+
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+  
+  .oval-button {
+    width: 25%;
+    border-radius: 30%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+  }
+
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Welcome to Data import Window</h1>
+
+    <form>
+
+
+        <!-- <h2 style="text-shadow:#4CAF50;text-align: center; font-size:xx-large;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;color: rgb(253, 253, 253);"> Set Import Parameters </h2> -->
+
+        <div class="container">
+
+
+<div class="row">
+    <label style="margin-top: 10px;margin-bottom: 10px;border: 1px solid #ccc; min-width: 5% ; text-align: right;color: aliceblue; padding: 5px;" for="index">Chunk Size:</label>
+        <input style="border: 1px solid #ccc; min-width: 5% ;font-weight: bold; text-align: left; padding: 5px;"type="text" id="chunk_size" name="chunk_size" value="2500" placeholder="Enter text">
+<label style="margin-top: 10px;margin-bottom: 10px;border: 1px solid #ccc; min-width: 5% ; text-align: left;color: aliceblue;" for="index">Chunk Overlap:</label>
+        <input style=" border: 1px solid #ccc; min-width: 5% ;font-weight: bold; text-align: left;"type="text" id="chunk_overlap" name="chunk_overlap" value="100" placeholder="Enter text">
+
+</div>
+<br>
+
+
+
+
+    <label style="border: 1px solid #ccc; min-width: 50% ; text-align: left;color: aliceblue; padding: 5px;" for="database">For The wich application: </label>
+    <select id="application_name" style="border: 1px solid #ccc; min-width: 50% ;font-weight: bold; text-align: center; padding: 5px;">
+      <option value="Public">Public Chatbot</option>
+      <option value="Client">Client Chatbot</option>
+      <option value="Team">Team Chatbot</option>
+    </select>
+   <!--  <br>
+        <label style="margin-top: 10px;margin-bottom: 10px;border: 1px solid #ccc; min-width: 50% ; text-align: left;color: aliceblue; padding: 5px;" for="index">Index / Database Name:</label>
+        <input style="border: 1px solid #ccc; min-width: 50% ;font-weight: bold; text-align: left; padding: 5px;"type="text" id="index_name" name="index_name" placeholder="Enter text"> -->
+<br>
+        <label style="border: 1px solid #ccc; min-width: 50% ; text-align: left;color: aliceblue; padding: 5px;" for="embedding">Embedding Type:</label>
+        <select style="border: 1px solid #ccc; min-width: 50% ;font-weight: bold; text-align: center; padding: 5px;" id="embedding_type" name="embedding_type">
+            <option value="OPENAI-EMBEDING">OPENAI-EMBEDING</option>
+            <option value="HUGGINGFACE-EMBEDING">HUGGINGFACE-EMBEDING</option>
+            <option value="option3">OTHER-EMBEDING</option>
+        </select>
+        <br>
+       
+    <!--     <label for="tableType">Table Type:</label>
+        <input type="text" id="tableType" name="tableType" placeholder="Enter type">
+
+        <label for="tablePath">Table Path:</label>
+        <input type="text" id="tablePath" name="tablePath" placeholder="Enter path">
+ --><div class="button-row">
+        <input class="oval-button" type="button" value="Add PDF" onclick="addFile('pdf')">
+        <input class="oval-button" type="button" value="Add CSV" onclick="addFile('csv')">
+        <input class="oval-button" type="button" value="Add Links" onclick="addLinks()">
+    </div>
+<div class="table-container">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Path</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+     <input style="width: 70%; border-radius: 10%; padding: 20px;background-color: #022b08; color: #fff;text-align: center;font-size: 18px;" type="button" value="Start Importing Provided Data" onclick="submitTable()">
+    </form>
+
+    <script>
+        function addFile(fileType) {
+            var fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "." + fileType;
+            fileInput.addEventListener("change", function() {
+                var file = fileInput.files[0];
+                // var fullPath = fileInput.value; // Get the full path from the file input
+                var fullPath = fileInput.files[0].webkitRelativePath || fileInput.files[0].name;
+                var table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+                var row = table.insertRow();
+                var typeCell = row.insertCell();
+                var pathCell = row.insertCell();
+                typeCell.textContent = fileType.toUpperCase();
+                pathCell.textContent = fullPath; // Display the full path
+            });
+            fileInput.click();
+        }
+
+        // function addFile(fileType) {
+        //     var fileInput = document.createElement("input");
+        //     fileInput.type = "file";
+        //     fileInput.accept = "." + fileType;
+        //     fileInput.addEventListener("change", function() {
+        //         var file = fileInput.files[0];
+        //         var table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+        //         var row = table.insertRow();
+        //         var typeCell = row.insertCell();
+        //         var pathCell = row.insertCell();
+        //         typeCell.textContent = fileType.toUpperCase();
+        //         pathCell.textContent = file.name;
+        //     });
+        //     fileInput.click();
+        // }
+
+        function addLinks() {
+            var linksInput = prompt("Enter the list of links (comma-separated):");
+            if (linksInput) {
+                var links = linksInput.split(",");
+                var table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+                for (var i = 0; i < links.length; i++) {
+                    var row = table.insertRow();
+                    var typeCell = row.insertCell();
+                    var pathCell = row.insertCell();
+                    typeCell.textContent = "LINK";
+                    pathCell.textContent = links[i].trim();
+                }
+            }
+        }
+
+        // function submitTable() {
+        //     var table = document.getElementById("dataTable");
+        //     var rows = table.getElementsByTagName("tr");
+        //     var data = [];
+        //     for (var i = 1; i < rows.length; i++) {
+        //         var cells = rows[i].getElementsByTagName("td");
+        //         var type = cells[0].textContent;
+        //         var path = cells[1].textContent;
+        //         data.push({ type: type, path: path });
+        //     }
+
+        function submitTable() {
+            // var index = document.getElementById("index_name").value;
+            var embedding = document.getElementById("embedding_type").value;
+            var database = document.getElementById("application_name").value;
+            var chunk_size = document.getElementById("chunk_size").value;
+            var chunk_overlap = document.getElementById("chunk_overlap").value;
+            // var tableType = document.getElementById("tableType").value;
+            // var tablePath = document.getElementById("tablePath").value;
+
+            var table = document.getElementById("dataTable");
+            var rows = table.getElementsByTagName("tr");
+            var data = [];
+            for (var i = 1; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                var type = cells[0].textContent;
+                var path = cells[1].textContent;
+                data.push({ type: type, path: path });
+            }
+            var requestData = {
+            chunk_size: chunk_size,
+            chunk_overlap: chunk_overlap,
+            // index_name: index,
+            embedding_type: embedding,
+            application_name: database,
+            data: data
+            };
+
+
+
+
+            // Replace "API_LINK" with your actual API endpoint
+            var apiLink = "http://127.0.0.1/importdata";
+            // Uncomment the following lines to send the data to the API
+            
+            fetch(apiLink, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+              
+
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log("API response:", result);
+                chunk_size.value = "dine"
+                // Handle the API response as needed
+
+
+
+
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle errors, if any
+            });
+            
+
+            console.log("Table data:", data);
+
+
+    var table = document.getElementById("dataTable");
+      var rowCount = table.rows.length;
+      
+      // Start from the last row and remove each row
+      for (var i = rowCount - 1; i > 0; i--) {
+        table.deleteRow(i);
+      }
+        };
+
+
+    </script>
+</body>
+</html>

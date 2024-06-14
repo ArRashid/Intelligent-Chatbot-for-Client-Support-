@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+
+
+
+
+
+<style>
+.chat-log {
+  height: 400px;
+  overflow-y: scroll;
+  border: 2px solid #ccc;
+  padding: 10px;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+}
+
+.user-message {
+  background-color:#0084ff ;
+  color: #fff;
+  padding: 5px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-end;
+}
+
+.bot-message {
+  background-color: #f2f2f2 ;
+  color: #333;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+  align-self: flex-start;
+}
+
+.send-button {
+  margin-top: 10px;
+  background-color: #0084ff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.send-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chat-input input {
+  background-color: #3fff0596;
+  flex-grow: 1;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input button {
+  margin-left: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #0084ff;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+}
+
+
+</style>
+
+<div class="chat-log" id="chat-log">
+  <div class="chat-message bot-message">
+    Hi there! How can I assist you today?
+  </div>
+</div>
+
+<form>
+<div class="chat-input">
+  <input type="text" id="user-message" placeholder="What would you like to know about Ginesys ?..."> 
+
+  <button type="submit" class="send-button" id="send-button">Send</button>
+
+</form>
+
+
+
+
+  
+    <script>
+
+
+const chatLog = document.getElementById('chat-log');
+const userMessageInput = document.getElementById('user-message');
+const sendButton = document.getElementById('send-button');
+
+function appendMessageToChatLog(message, isBot) {
+  const messageElement = document.createElement('div');
+  messageElement.innerText = message;
+  if (isBot) {
+    messageElement.classList.add('bot-message');
+  } else {
+    messageElement.classList.add('user-message');
+  }
+  chatLog.appendChild(messageElement);
+}
+
+function sendUserMessageToApi() {
+  const userMessage = userMessageInput.value;
+  appendMessageToChatLog(userMessage, false);
+
+  // Add waiting message to chat log
+  const waitingMessage = 'Waiting for response...';
+  appendMessageToChatLog(waitingMessage, true);
+
+  // Disable input field and send button
+  userMessageInput.disabled = true;
+userMessageInput.value = ''
+userMessageInput.placeholder = ''
+  sendButton.disabled = true;
+  sendButton.innerText = 'Waiting for response...';
+
+  const requestBody = {
+    message: userMessage
+  };
+
+  fetch('http://127.0.0.1/api/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => response.json())
+  .then(responseBody => {
+    const botMessage = responseBody.message;
+    // Remove waiting message from chat log
+    chatLog.removeChild(chatLog.lastChild);
+    appendMessageToChatLog(botMessage, true);
+    // Enable input field and send button
+    userMessageInput.disabled = false;
+    sendButton.disabled = false;
+    sendButton.innerText = 'Send';
+    // Clear input field
+    userMessageInput.value = '';
+  });
+}
+
+document.querySelector('form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  sendUserMessageToApi();
+});
+
+
+
+</script>
+  </body>
+</html>
